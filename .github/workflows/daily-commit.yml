@@ -3,8 +3,8 @@ name: Daily Automated Commit
 # Run on a schedule using cron syntax
 on:
   schedule:
-    # Run at *:0 UTC hourly
-    - cron: '0 * * * *'
+    # Run at {cron_expr.split()[1]}:{cron_expr.split()[0]} UTC {schedule_freq}
+    - cron: '{cron_expr}'
   
   # Allow manual triggering for testing
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: '3.10'
       
-      - name: 24f2006438@ds.study.iitm.ac.in
+      - name: Update file
         run: |
           echo "This step is run by 24f2006438@ds.study.iitm.ac.in"
           echo "Current time: $(date)"
@@ -35,10 +35,10 @@ jobs:
           git config --local user.email "24f2006438@ds.study.iitm.ac.in"
           git config --local user.name "GitHub Action"
           git add update.txt
-          git commit -m "Automated update $(date)"
+          git commit -m "Automated update $(date)" || echo "No changes to commit"
       
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${ secrets.GITHUB_TOKEN }
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
