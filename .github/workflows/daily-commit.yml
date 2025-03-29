@@ -3,8 +3,8 @@ name: Daily Automated Commit
 # Run on a schedule using cron syntax
 on:
   schedule:
-    # Run at {cron_expr.split()[1]}:{cron_expr.split()[0]} UTC {schedule_freq}
-    - cron: '{cron_expr}'
+    # Run every hour
+    - cron: '0 * * * *'
   
   # Allow manual triggering for testing
   workflow_dispatch:
